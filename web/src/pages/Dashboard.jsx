@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "../styles/dashboard.css";
 import { signOut } from "../app/userSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Dashboard() {
   const [productTitle, setProductTitle] = useState("");
@@ -23,6 +24,8 @@ export default function Dashboard() {
 
   const addProduct = (e) => {
     e.preventDefault();
+    const id = toast.loading("Please wait...");
+
     axios
       .post(`${serverUrl}/products`, {
         productTitle,
@@ -33,14 +36,27 @@ export default function Dashboard() {
         setProductTitle("");
         setProductDescription("");
         setProductImageUrl("");
-        console.log(res.data);
         getProducts();
+        toast.update(id, {
+          render: "Product addition succesful",
+          type: "success",
+          isLoading: false,
+        });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.update(id, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+        });
+        console.log(err);
+      });
   };
 
   const editProduct = (e) => {
     e.preventDefault();
+    const id = toast.loading("Please wait...");
+
     const productId = selectedProduct.id;
     axios
       .put(`${serverUrl}/products/${productId}`, {
@@ -53,19 +69,41 @@ export default function Dashboard() {
         setEditProductDescription("");
         setEditProductImageUrl("");
         getProducts();
-        console.log(res.data);
+        toast.update(id, {
+          render: "Product edit succesful",
+          type: "success",
+          isLoading: false,
+        });
+        toggleHeadingText();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.update(id, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+        });
+        console.log(err);
+      });
   };
 
   const getProducts = () => {
+    const id = toast.loading("Please wait...");
+
     axios
       .get(`${serverUrl}/products`)
       .then((res) => {
         const { data } = res.data;
         setProducts(data);
+        toast.update(id, {
+          render: "Finished loading products",
+          type: "success",
+          isLoading: false,
+        });
+        toggleHeadingText();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const setEditProductDetails = (e, product) => {
@@ -76,13 +114,26 @@ export default function Dashboard() {
   };
 
   const deleteProduct = (e, productId) => {
+    const id = toast.loading("Please wait...");
+
     axios
       .delete(`${serverUrl}/products/${productId}`)
       .then((res) => {
         console.log(res);
         getProducts();
+        toast.update(id, {
+          render: "Product deletion successful",
+          type: "success",
+          isLoading: false,
+        });
+        toggleHeadingText();
       })
       .catch((err) => {
+        toast.update(id, {
+          render: "Product deletion failed",
+          type: "error",
+          isLoading: false,
+        });
         console.log(err);
       });
   };
@@ -92,12 +143,26 @@ export default function Dashboard() {
   };
 
   const deleteUser = () => {
+    const id = toast.loading("Please wait...");
+
     axios
       .delete(`${serverUrl}/users/${user.data.uid}`)
       .then((res) => {
         console.log(res.data);
+        toast.update(id, {
+          render: "User account deltion successful",
+          type: "success",
+          isLoading: false,
+        });
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        console.log(e);
+        toast.update(id, {
+          render: "Something went wrong",
+          type: "error",
+          isLoading: false,
+        });
+      });
     handleSignOut();
   };
 
@@ -107,6 +172,7 @@ export default function Dashboard() {
 
   return (
     <React.Fragment>
+      <ToastContainer autoClose={5000} />
       <header className="py-3 mb-4 border-bottom shadow">
         <div className="container-fluid align-items-center d-flex">
           <div className="flex-shrink-1">
