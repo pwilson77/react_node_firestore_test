@@ -17,6 +17,7 @@ const {
   createUserWithEmailAndPassword,
   deleteUser,
 } = require("firebase/auth");
+require("dotenv").config();
 
 const firebaseConfig = {
   apiKey: process.env.API_KEY,

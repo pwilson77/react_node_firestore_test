@@ -1,6 +1,9 @@
 import React, { Component, useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import "../styles/dashboard.css";
+import { signOut } from "../app/userSlice";
 
 export default function Dashboard() {
   const [productTitle, setProductTitle] = useState("");
@@ -14,6 +17,9 @@ export default function Dashboard() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState({});
   const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const user = useSelector((state) => state.user);
+  console.log(user);
+  const dispatch = useDispatch();
 
   const addProduct = (e) => {
     e.preventDefault();
@@ -81,6 +87,20 @@ export default function Dashboard() {
       });
   };
 
+  const handleSignOut = () => {
+    dispatch(signOut());
+  };
+
+  const deleteUser = () => {
+    axios
+      .delete(`${serverUrl}/users/${user.data.uid}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((e) => console.log(e));
+    handleSignOut();
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -120,7 +140,7 @@ export default function Dashboard() {
                 aria-labelledby="dropdownUser2"
               >
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="#" onClick={deleteUser}>
                     Delete Account
                   </a>
                 </li>
@@ -128,7 +148,7 @@ export default function Dashboard() {
                   <hr className="dropdown-divider" />
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <a className="dropdown-item" href="#" onClick={handleSignOut}>
                     Sign out
                   </a>
                 </li>
@@ -152,7 +172,7 @@ export default function Dashboard() {
             </div>
           </aside>
           <main className="col-9 overflow-auto h-100">
-            <div clcassName="bg-light border rounded-3 p-3 w-100">
+            <div className="bg-light border rounded-3 p-3 w-100">
               <h4 className="text-start">All Products</h4>
               <button
                 className="btn btn-sm btn-primary float-right"

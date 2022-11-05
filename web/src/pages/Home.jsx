@@ -1,7 +1,9 @@
 import React, { Component, useState } from "react";
-import { redirect } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { signIn } from "../app/userSlice";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -9,6 +11,8 @@ export default function Home() {
   const [headingText, setHeadingText] = useState("Login");
   const [isNewUser, setIsNewUser] = useState(false);
   const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSignUpAndLogin = (e) => {
     e.preventDefault();
@@ -23,7 +27,7 @@ export default function Home() {
         .then((res) => {
           console.log(res);
           toast.update(id, {
-            render: "Signup scuccessful please login",
+            render: "Signup successful please login",
             type: "success",
             isLoading: false,
           });
@@ -44,13 +48,14 @@ export default function Home() {
           password,
         })
         .then((res) => {
-          console.log(res);
+          console.log(res.data);
+          dispatch(signIn(res.data));
           toast.update(id, {
-            render: "Login succesful redirecting to dashboard",
+            render: "Login successful redirecting to dashboard",
             type: "success",
             isLoading: false,
           });
-          redirect("/dashboard");
+          navigate("/dashboard");
         })
         .catch((e) => {
           console.log(e);
@@ -74,38 +79,35 @@ export default function Home() {
 
   return (
     <div className="container">
+      <ToastContainer />
       <div className="row justify-content-center align-content-center h-100">
-        <div className="col-md-6 mb-5">
+        <div className="col-md-6 mb-5 px-2">
           <form onSubmit={handleSignUpAndLogin}>
             <h5>{headingText}</h5>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">
-                Email address
-              </label>
+            <div className="mb-3">
+              <label className="form-label">Email address</label>
               <input
                 type="email"
-                class="form-control"
+                className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">
-                Password
-              </label>
+            <div className="mb-3">
+              <label className="form-label">Password</label>
               <input
                 type="password"
-                class="form-control"
+                className="form-control"
                 id="exampleInputPassword1"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" className="btn btn-primary">
               Submit
             </button>
-            <div class="form-text mt-3">
+            <div className="form-text mt-3">
               {isNewUser
                 ? "Already have an account, "
                 : "Don't have an account, "}
