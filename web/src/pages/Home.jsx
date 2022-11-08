@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { signIn } from "../app/userSlice";
 import { Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -70,16 +71,19 @@ export default function Home() {
 
   const toggleHeadingText = () => {
     setIsNewUser(!isNewUser);
+  };
+
+  useEffect(() => {
     if (isNewUser) {
       setHeadingText("User Signup");
     } else {
       setHeadingText("Login");
     }
-  };
+    console.log(isNewUser);
+  }, [isNewUser]);
 
   return (
     <div className="container">
-      <ToastContainer autoClose={2000} />
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-md-6 mb-5 px-2">
           <form onSubmit={handleSignUpAndLogin}>

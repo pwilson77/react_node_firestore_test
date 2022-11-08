@@ -7,10 +7,13 @@ import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./routes/PrivateRoute";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <div className="App">
+      <ToastContainer autoClose={2000} />
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
