@@ -41,6 +41,7 @@ export default function Dashboard() {
           render: "Product addition succesful",
           type: "success",
           isLoading: false,
+          autoClose: 1500,
         });
       })
       .catch((err) => {
@@ -48,6 +49,7 @@ export default function Dashboard() {
           render: "Something went wrong",
           type: "error",
           isLoading: false,
+          autoClose: 1500,
         });
         console.log(err);
       });
@@ -73,6 +75,7 @@ export default function Dashboard() {
           render: "Product edit succesful",
           type: "success",
           isLoading: false,
+          autoClose: 1500,
         });
       })
       .catch((err) => {
@@ -80,6 +83,7 @@ export default function Dashboard() {
           render: "Something went wrong",
           type: "error",
           isLoading: false,
+          autoClose: 1500,
         });
         console.log(err);
       });
@@ -97,6 +101,7 @@ export default function Dashboard() {
           render: "Finished loading products",
           type: "success",
           isLoading: false,
+          autoClose: 1500,
         });
       })
       .catch((err) => {
@@ -123,6 +128,7 @@ export default function Dashboard() {
           render: "Product deletion successful",
           type: "success",
           isLoading: false,
+          autoClose: 1500,
         });
       })
       .catch((err) => {
@@ -130,6 +136,7 @@ export default function Dashboard() {
           render: "Product deletion failed",
           type: "error",
           isLoading: false,
+          autoClose: 1500,
         });
         console.log(err);
       });
@@ -150,6 +157,7 @@ export default function Dashboard() {
           render: "User account deltion successful",
           type: "success",
           isLoading: false,
+          autoClose: 1500,
         });
       })
       .catch((e) => {
@@ -158,6 +166,7 @@ export default function Dashboard() {
           render: "Something went wrong",
           type: "error",
           isLoading: false,
+          autoClose: 1500,
         });
       });
     handleSignOut();

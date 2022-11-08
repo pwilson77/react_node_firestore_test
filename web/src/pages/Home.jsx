@@ -31,6 +31,7 @@ export default function Home() {
             render: "Signup successful please login",
             type: "success",
             isLoading: false,
+            autoClose: 1500,
           });
           toggleHeadingText();
         })
@@ -39,6 +40,7 @@ export default function Home() {
             render: "Something went wrong",
             type: "error",
             isLoading: false,
+            autoClose: 1500,
           });
           console.log(e);
         });
@@ -55,6 +57,7 @@ export default function Home() {
             render: "Login successful redirecting to dashboard",
             type: "success",
             isLoading: false,
+            autoClose: 1500,
           });
           navigate("/dashboard");
         })
@@ -64,6 +67,7 @@ export default function Home() {
             render: "Something went wrong",
             type: "error",
             isLoading: false,
+            autoClose: 1500,
           });
         });
     }
@@ -109,7 +113,7 @@ export default function Home() {
             </div>
 
             <button type="submit" className="btn btn-primary">
-              Submit
+              {isNewUser ? "SignUp" : "Login"}
             </button>
             <div className="form-text mt-3">
               {isNewUser
