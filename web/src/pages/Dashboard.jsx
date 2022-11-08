@@ -74,7 +74,6 @@ export default function Dashboard() {
           type: "success",
           isLoading: false,
         });
-        toggleHeadingText();
       })
       .catch((err) => {
         toast.update(id, {
@@ -99,7 +98,6 @@ export default function Dashboard() {
           type: "success",
           isLoading: false,
         });
-        toggleHeadingText();
       })
       .catch((err) => {
         console.log(err);
@@ -126,7 +124,6 @@ export default function Dashboard() {
           type: "success",
           isLoading: false,
         });
-        toggleHeadingText();
       })
       .catch((err) => {
         toast.update(id, {
@@ -172,7 +169,7 @@ export default function Dashboard() {
 
   return (
     <React.Fragment>
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={2000} />
       <header className="py-3 mb-4 border-bottom shadow">
         <div className="container-fluid align-items-center d-flex">
           <div className="flex-shrink-1">

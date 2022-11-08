@@ -79,7 +79,7 @@ export default function Home() {
 
   return (
     <div className="container">
-      <ToastContainer autoClose={5000} />
+      <ToastContainer autoClose={2000} />
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-md-6 mb-5 px-2">
           <form onSubmit={handleSignUpAndLogin}>
