@@ -1,8 +1,7 @@
-import React, { Component, useState } from "react";
+import React, { Component } from "react";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import "../styles/dashboard.css";
 import { signOut } from "../app/userSlice";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -177,50 +176,59 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <React.Fragment>
-      <ToastContainer autoClose={2000} />
-      <header className="py-3 mb-4 border-bottom shadow">
-        <div className="container-fluid align-items-center d-flex">
-          <div className="flex-shrink-1">
+    <div class="container-fluid">
+      <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+          <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             <a
-              href="#"
-              className="d-flex align-items-center col-lg-4 mb-2 mb-lg-0 link-dark text-decoration-none"
+              href="/"
+              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
             >
-              <i className="bi bi-bootstrap fs-2 text-dark"></i>
+              <span class="fs-5 d-none d-sm-inline">Menu</span>
             </a>
-          </div>
-          <div className="flex-grow-1 d-flex align-items-center">
-            <form className="w-100 me-3"></form>
-            <div className="flex-shrink-0 dropdown">
+            <ul
+              class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+              id="menu"
+            >
+              <li class="nav-item">
+                <a href="#" class="nav-link align-middle px-0">
+                  <i class="fs-4 bi-house"></i>{" "}
+                  <span class="ms-1 d-none d-sm-inline">Dashboard</span>
+                </a>
+              </li>
+            </ul>
+            <hr />
+            <div class="dropdown pb-4">
               <a
                 href="#"
-                className="d-block link-dark text-decoration-none dropdown-toggle"
-                id="dropdownUser2"
+                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                id="dropdownUser1"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <img
-                  src="https://via.placeholder.com/28?text=!"
-                  alt="user"
-                  width="32"
-                  height="32"
-                  className="rounded-circle"
+                  src="https://github.com/mdo.png"
+                  alt="hugenerd"
+                  width="30"
+                  height="30"
+                  class="rounded-circle"
                 />
+                <span class="d-none d-sm-inline mx-1">{user.data.email}</span>
               </a>
               <ul
-                className="dropdown-menu dropdown-menu-end shadow"
-                aria-labelledby="dropdownUser2"
+                class="dropdown-menu dropdown-menu-dark text-small shadow"
+                aria-labelledby="dropdownUser1"
               >
                 <li>
-                  <a className="dropdown-item" href="#" onClick={deleteUser}>
+                  <a class="dropdown-item" href="#" onClick={deleteUser}>
                     Delete Account
                   </a>
                 </li>
                 <li>
-                  <hr className="dropdown-divider" />
+                  <hr class="dropdown-divider" />
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#" onClick={handleSignOut}>
+                  <a class="dropdown-item" href="#" onClick={handleSignOut}>
                     Sign out
                   </a>
                 </li>
@@ -228,214 +236,194 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </header>
-      <div className="container-fluid pb-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
-        <div className="row flex-grow-sm-1 flex-grow-0 w-100">
-          <aside className="col-sm-3 flex-grow-sm-1 flex-shrink-1 flex-grow-0 sticky-top pb-sm-0 pb-3">
-            <div className="bg-light border rounded-3 p-1 h-100 sticky-top">
-              <ul className="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between text-truncate">
-                <li className="nav-item">
-                  <a href="#" className="nav-link px-2 text-truncate">
-                    <i className="bi bi-house fs-5"></i>
-                    <span className="d-none d-sm-inline">Products</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </aside>
-          <main className="col-9 overflow-auto h-100">
-            <div className="bg-light border rounded-3 p-3 w-100">
-              <h4 className="text-start">All Products</h4>
-              <button
-                className="btn btn-sm btn-primary float-right"
-                data-bs-toggle="modal"
-                data-bs-target="#addProduct"
-              >
-                Add Product
-              </button>
+        <div class="col py-3">
+          <h4 className="text-start">All Products</h4>
+          <button
+            className="btn btn-sm btn-primary float-end"
+            data-bs-toggle="modal"
+            data-bs-target="#addProduct"
+          >
+            Add Product
+          </button>
 
-              <table className="table table-striped tabl-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Product Title</th>
-                    <th scope="col">Product Image Url</th>
-                    <th scope="col">Product Description</th>
-                    <th scope="col"> Actions </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.map((product, i) => (
-                    <tr key={i}>
-                      <th scope="row">{i + 1}</th>
-                      <td>{product.productTitle}</td>
-                      <td>{product.productImageUrl}</td>
-                      <td>{`$${product.productDescription}`}</td>
-                      <td>
-                        <button
-                          className="btn btn-sm btn-primary me-2"
-                          data-bs-toggle="modal"
-                          data-bs-target="#editProduct"
-                          onClick={(e) => setEditProductDetails(e, product)}
-                        >
-                          Edit Product{" "}
-                        </button>
-                        <button
-                          className="btn btn-sm btn-danger"
-                          onClick={(e) => deleteProduct(e, product.id)}
-                        >
-                          Delete Product{" "}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          <table className="table table-striped tabl-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Product Title</th>
+                <th scope="col">Product Image Url</th>
+                <th scope="col">Product Description</th>
+                <th scope="col"> Actions </th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((product, i) => (
+                <tr key={i}>
+                  <th scope="row">{i + 1}</th>
+                  <td>{product.productTitle}</td>
+                  <td>{product.productImageUrl}</td>
+                  <td>{`$${product.productDescription}`}</td>
+                  <td>
+                    <button
+                      className="btn btn-sm btn-primary me-2"
+                      data-bs-toggle="modal"
+                      data-bs-target="#editProduct"
+                      onClick={(e) => setEditProductDetails(e, product)}
+                    >
+                      Edit Product{" "}
+                    </button>
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={(e) => deleteProduct(e, product.id)}
+                    >
+                      Delete Product{" "}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div
+          className="modal fade"
+          id="addProduct"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <form onSubmit={addProduct}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Product Modal</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <div className="mb-3">
+                    <label className="form-label">Product Title</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      required
+                      onChange={(e) => setProductTitle(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Product Image Url</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      required
+                      onChange={(e) => setProductImageUrl(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Product Price</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      required
+                      onChange={(e) => setProductDescription(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </div>
             </div>
-            {/* <div className="bg-light border rounded-3 p-3">
-             
-             
-            </div> */}
-          </main>
+          </form>
+        </div>
+        <div
+          className="modal fade"
+          id="editProduct"
+          tabindex="-2"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <form onSubmit={editProduct}>
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Edit Product</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <label className="form-label">Product Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    aria-describedby="emailHelp"
+                    defaultValue={selectedProduct?.productTitle}
+                    onChange={(e) => setEditProductTitle(e.target.value)}
+                  />
+                  <div className="mb-3">
+                    <label className="form-label">Product Image Url</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      defaultValue={selectedProduct?.productImageUrl}
+                      onChange={(e) => setEditProductImageUrl(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <label className="form-label">Product Price</label>
+                    <input
+                      type="number"
+                      className="form-control"
+                      defaultValue={selectedProduct?.productDescription}
+                      onChange={(e) =>
+                        setEditProductDescription(e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-      <div
-        className="modal fade"
-        id="addProduct"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <form onSubmit={addProduct}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Product Modal</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <div className="mb-3">
-                  <label className="form-label">Product Title</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    required
-                    onChange={(e) => setProductTitle(e.target.value)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label className="form-label">Product Image Url</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    required
-                    onChange={(e) => setProductImageUrl(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Product Price</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    required
-                    onChange={(e) => setProductDescription(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div
-        className="modal fade"
-        id="editProduct"
-        tabindex="-2"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <form onSubmit={editProduct}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Edit Product</h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <label className="form-label">Product Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                  defaultValue={selectedProduct?.productTitle}
-                  onChange={(e) => setEditProductTitle(e.target.value)}
-                />
-                <div className="mb-3">
-                  <label className="form-label">Product Image Url</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    defaultValue={selectedProduct?.productImageUrl}
-                    onChange={(e) => setEditProductImageUrl(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label className="form-label">Product Price</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    defaultValue={selectedProduct?.productDescription}
-                    onChange={(e) => setEditProductDescription(e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </React.Fragment>
+    </div>
   );
 }
